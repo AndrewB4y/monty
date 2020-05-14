@@ -44,12 +44,16 @@ typedef struct instruction_s
 
 /* Prototypes */
 int read_monty(char *file);
-void (*check_func(char *token))(stack_t **stack, unsigned int line_number);
+void (*check_f(char *tkn, int *s))(stack_t **stack, unsigned int line_number);
 void _push(stack_t **stack, unsigned int line_number);
 void _pall(stack_t **stack, unsigned int line_number);
 void _pint(stack_t **stack, unsigned int line_number);
 void _pop(stack_t **stack, unsigned int line_number);
+void _swap(stack_t **stack, unsigned int line_number);
+void _add(stack_t **stack, unsigned int line_number);
+void _nop(stack_t **stack, unsigned int line_number);
 void free_stack(stack_t *head);
+void _reverse(stack_t **stack, unsigned int line_number);
 
 int _strcmp(char *s1, char *s2);
 char *_strncpy(char *dest, char *src, int n);

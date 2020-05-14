@@ -9,7 +9,7 @@
 
 int read_monty(char *file)
 {
-	int fd = -1;
+	int fd = -1, stk = 1;
 	char buf[1024], line[1024], *token = NULL;
 	ssize_t ra = 0, bsize = sizeof(buf) / sizeof(buf[0]);
 
@@ -66,7 +66,7 @@ int read_monty(char *file)
 			token = strtok(line, " \n\t\r");
 			if (token == NULL)
 				continue;
-			f = check_func(token);
+			f = check_f(token, &stk);
 			if (f == NULL)
 			{
 				fprintf(stderr, "L<%d>: unknown instruction <%s>", count, token);

@@ -23,9 +23,7 @@ void _pop(stack_t **stack, unsigned int line_number)
 		free(node);
 		return;
 	}
-	while (node->next != NULL)
-		node = node->next;
-
-	node->prev->next = NULL;
+	*stack = node->next;
+	node->next->prev = NULL;
 	free(node);
 }
