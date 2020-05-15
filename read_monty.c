@@ -9,24 +9,34 @@
 
 int read_monty(char *file)
 {
-	int fd = -1, stk = 1;
-	char buf[1024], line[1024], *token = NULL;
-	ssize_t ra = 0, bsize = sizeof(buf) / sizeof(buf[0]);
-
-	int i = 0, start = 0, end = 0, stay1 = 1;
-	int n_bytes = 0, count = 0, error = 0, stay2 = 1;
-
-	void (*f)(stack_t **stack, unsigned int line_number);
-	stack_t *stack = NULL;
+	int fd = -1, error = EXIT_SUCCESS;
 
 	if (file == NULL)
 		return (1);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (1);
+	error = proc_monty(fd);
+	return (error);
+}
+
+/**
+ * proc_monty - processes the opened monty file.
+ * @fd: file descriptor of the monty file.
+ *
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
+
+int proc_monty(int fd)
+{
+	int stay1 = 1, i = 0, stk = 1, error = EXIT_SUCCESS;
+	char buf[1024];
+	ssize_t ra = 0, bsize = sizeof(buf) / sizeof(buf[0]);
+	stack_t *stack = NULL;
+
 	while (stay1)
 	{
-		ra = read(fd, &buf[i], bsize - n_bytes);
+		ra = read(fd, &buf[i], bsize - i);
 		if (ra <= 0)
 			return (1);
 		if (ra < bsize)
@@ -34,49 +44,60 @@ int read_monty(char *file)
 			bsize = ra;
 			stay1 = 0;
 		}
-		while (stay2)
-		{
-			if (end + 1 < bsize && end != 0)
-			{
-				start = end + 1;
-				end = start;
-			}
-			else if (end + 1 >= bsize)
-			{
-				n_bytes = 0;
-				i = 0;
-				stay2 = 0;
-				continue;
-			}
-			while (end < bsize && buf[end] != '\n')
-				end++;
-			if (buf[end] != '\n')
-			{
-				--end;
-				n_bytes = end - start + 1;
-				for (i = 0; i < n_bytes; i++)
-					buf[i] = buf[start + i];
-				stay2 = 0;
-				continue;
-			}
-			n_bytes = end - start + 1;
-			++count;
-			_strncpy(line, &buf[start], n_bytes);
-			line[n_bytes] = '\0';
-			token = strtok(line, " \n\t\r");
-			if (token == NULL)
-				continue;
-			f = check_f(token, &stk);
-			if (f == NULL)
-			{
-				fprintf(stderr, "L<%d>: unknown instruction <%s>", count, token);
-				stay1 = 0;
-				error = EXIT_FAILURE;
-				break;
-			}
-			f(&stack, count);
-		}
+		error = proc_lines(&stack, &buf, bsize, &i, &stk);
 	}
+	free_stack(stack);
+	return (error);
+}
 
+/**
+ * proc_lines - processes the lines acquired on the buf.
+ * @stck: head of the stack.
+ * @b: buffer holding several lines to be read.
+ * @bsize: size of the buffer.
+ * @i: index from which new characters must be stored in buf in a new read.
+ * @md: mode selection for stack or queue, 1 is default for stack mode.
+ *
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure.
+ */
+
+
+int proc_lines(stack_t **stck, char (*b)[1024], ssize_t bsize, int *i, int *md)
+{
+	int start = 0, end = 0, error = EXIT_SUCCESS, count = 0, n_bytes = 0;
+	char line[1024], *token = NULL;
+	void (*f)(stack_t **stack, unsigned int line_number) = NULL;
+
+	while (1)
+	{
+		if (end + 1 < bsize && end != 0)
+		{
+			start = end + 1;
+			end = start;
+		}
+		else if (end + 1 >= bsize)
+		{
+			*i = 0;
+			break;
+		}
+		while (end < bsize && (*b)[end] != '\n')
+			end++;
+		if ((*b)[end] != '\n')
+		{
+			n_bytes = end - start;
+			for (*i = 0; *i < n_bytes; (*i)++)
+				(*b)[*i] = (*b)[start + *i];
+			break;
+		}
+		n_bytes = end - start + 1;
+		++count;
+		_strncpy(line, &((*b)[start]), n_bytes);
+		line[n_bytes] = '\0';
+		token = strtok(line, " \n\t\r");
+		if (token == NULL)
+			continue;
+		f = check_f(token, md, *stck, count);
+		f(stck, count);
+	}
 	return (error);
 }

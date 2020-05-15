@@ -23,5 +23,5 @@ void _swap(stack_t **stack, unsigned int line_number)
 	node->prev = node->next;
 	node->next = node->next->next;
 	node->prev->next = node;
-
+	*stack = node->prev;
 }

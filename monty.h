@@ -42,9 +42,13 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+typedef void (*opcode_p)(stack_t **stack, unsigned int line_number);
+
 /* Prototypes */
 int read_monty(char *file);
-void (*check_f(char *tkn, int *s))(stack_t **stack, unsigned int line_number);
+int proc_monty(int fd);
+int proc_lines(stack_t **, char (*)[1024], ssize_t, int *, int *);
+opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count);
 void _push(stack_t **stack, unsigned int line_number);
 void _pall(stack_t **stack, unsigned int line_number);
 void _pint(stack_t **stack, unsigned int line_number);
@@ -52,6 +56,9 @@ void _pop(stack_t **stack, unsigned int line_number);
 void _swap(stack_t **stack, unsigned int line_number);
 void _add(stack_t **stack, unsigned int line_number);
 void _nop(stack_t **stack, unsigned int line_number);
+
+void _q_push(stack_t **stack, unsigned int line_number);
+
 void free_stack(stack_t *head);
 void _reverse(stack_t **stack, unsigned int line_number);
 

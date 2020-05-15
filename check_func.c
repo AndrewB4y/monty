@@ -5,13 +5,15 @@
  *              functions for the interpretation of a Monty 0.98 code.
  * @tkn: input string to be checked.
  * @s: indicator for mode stack o queue, 1 for stack, 0 for queue.
+ * @stack: head of the stack.
+ * @count: line number in code.
  *
  * Return: pointer to the callable function, NULL if not found.
  */
 
-void (*check_f(char *tkn, int *s))(stack_t **stack, unsigned int line_number)
+opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count)
 {
-	instruction_t stk_funcs[] = {
+	instruction_t funcs[] = {
 		{"push", _push},
 		{"pall", _pall},
 		{"pint", _pint},
@@ -21,20 +23,8 @@ void (*check_f(char *tkn, int *s))(stack_t **stack, unsigned int line_number)
 		{"nop", _nop},
 		{NULL, NULL}
 	};
-	instruction_t q_funcs[] = {
-		{"push", _push},
-		{"pall", _pall},
-		{"pint", _pint},
-		{"pop", _pop},
-		{"swap", _swap},
-		{"add", _add},
-		{"nop", _nop},
-		{NULL, NULL}
-	};
-	instruction_t *funcs = NULL;
 	int i = 0;
 
-	funcs = stk_funcs;
 	if (_strcmp(tkn, "stack") == 0 && *s == 0)
 	{
 		*s = 1;
@@ -49,14 +39,15 @@ void (*check_f(char *tkn, int *s))(stack_t **stack, unsigned int line_number)
 	{
 		return (_nop);
 	}
-	if (*s == 0)
-		funcs = q_funcs;
-
 	while (funcs[i].opcode != NULL && _strcmp(tkn, funcs[i].opcode))
 		i++;
-
 	if (funcs[i].opcode == NULL)
-		return (NULL);
-
+	{
+		fprintf(stderr, "L<%d>: unknown instruction <%s>", count, tkn);
+		free_stack(stack);
+		exit(EXIT_FAILURE);
+	}
+	if (funcs[i].f == _push && s == 0)
+		return (_q_push);
 	return (funcs[i].f);
 }
