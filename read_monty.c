@@ -9,25 +9,25 @@
 
 int read_monty(char *file)
 {
-	int fd = -1, error = EXIT_SUCCESS;
+	int error = EXIT_SUCCESS;
 
 	if (file == NULL)
 		return (1);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (1);
-	error = proc_monty(fd);
+	error = proc_monty();
+	close(fd);
 	return (error);
 }
 
 /**
  * proc_monty - processes the opened monty file.
- * @fd: file descriptor of the monty file.
  *
  * Return: EXIT_SUCCESS on success, EXIT_FAILURE on failure.
  */
 
-int proc_monty(int fd)
+int proc_monty(void)
 {
 	int stay1 = 1, i = 0, stk = 1, error = EXIT_SUCCESS;
 	char buf[1024];

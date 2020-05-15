@@ -45,6 +45,7 @@ opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count)
 	{
 		fprintf(stderr, "L<%d>: unknown instruction <%s>\n", count, tkn);
 		free_stack(stack);
+		close(fd);
 		exit(EXIT_FAILURE);
 	}
 	if (funcs[i].f == _push && s == 0)

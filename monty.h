@@ -12,6 +12,8 @@
 
 /* Global variables and structures*/
 
+extern int fd;
+int fd;
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -46,7 +48,7 @@ typedef void (*opcode_p)(stack_t **stack, unsigned int line_number);
 
 /* Prototypes */
 int read_monty(char *file);
-int proc_monty(int fd);
+int proc_monty(void);
 int proc_lines(stack_t **, char (*)[1024], ssize_t, int *, int *);
 opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count);
 void _push(stack_t **stack, unsigned int line_number);
