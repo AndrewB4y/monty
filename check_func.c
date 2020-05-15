@@ -27,6 +27,7 @@ opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count)
 		{"mod", _mod},
 		{"pchar", _pchar},
 		{"pstr", _pstr},
+		{"rotl", _rotl},
 		{NULL, NULL}
 	};
 	opcode_p f = NULL;
