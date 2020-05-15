@@ -9,12 +9,15 @@
 
 void free_stack(stack_t *head)
 {
+	stack_t *node = head;
+
 	if (head == NULL)
 		return;
-	while (head->next != NULL)
+
+	while (head != NULL)
 	{
-		head = head->next;
-		free(head->prev);
+		node = head->next;
+		free(head);
+		head = node;
 	}
-	free(head);
 }
