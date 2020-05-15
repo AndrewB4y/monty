@@ -26,8 +26,9 @@ int _isnumber(char *num)
 	int i = 0;
 
 	if (num[i] == '-')
-		++i;
-	if (num[i] == '\0' || num[i] == '0')
+		if (atoi(num) != 0)
+			++i;
+	if (num[i] == '\0')
 		return (0);
 	while (num[i] != '\0')
 	{
