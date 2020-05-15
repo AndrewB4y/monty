@@ -43,7 +43,7 @@ opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count)
 		i++;
 	if (funcs[i].opcode == NULL)
 	{
-		fprintf(stderr, "L<%d>: unknown instruction <%s>", count, tkn);
+		fprintf(stderr, "L<%d>: unknown instruction <%s>\n", count, tkn);
 		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}

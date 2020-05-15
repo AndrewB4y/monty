@@ -15,7 +15,7 @@ void _add(stack_t **stack, unsigned int line_number)
 
 	if (node == NULL || node->next == NULL)
 	{
-		fprintf(stderr, "L<%d>: can't add, stack too short", line_number);
+		fprintf(stderr, "L<%d>: can't add, stack too short\n", line_number);
 		if (node != NULL)
 			free(node);
 		exit(EXIT_FAILURE);
