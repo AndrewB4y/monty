@@ -51,6 +51,7 @@ int read_monty(char *file);
 int proc_monty(void);
 int proc_lines(stack_t **, char (*)[1024], ssize_t, int *, int *);
 opcode_p check_f(char *tkn, int *s, stack_t *stack, unsigned int count);
+opcode_p check_stk_queue(char *tkn, int *s);
 void _push(stack_t **stack, unsigned int line_number);
 void _pall(stack_t **stack, unsigned int line_number);
 void _pint(stack_t **stack, unsigned int line_number);
@@ -58,6 +59,8 @@ void _pop(stack_t **stack, unsigned int line_number);
 void _swap(stack_t **stack, unsigned int line_number);
 void _add(stack_t **stack, unsigned int line_number);
 void _nop(stack_t **stack, unsigned int line_number);
+void _sub(stack_t **stack, unsigned int line_number);
+void _div(stack_t **stack, unsigned int line_number);
 
 void _q_push(stack_t **stack, unsigned int line_number);
 

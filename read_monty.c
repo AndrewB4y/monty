@@ -93,6 +93,8 @@ int proc_lines(stack_t **stck, char (*b)[1024], ssize_t bsize, int *i, int *md)
 		++count;
 		_strncpy(line, &((*b)[start]), n_bytes);
 		line[n_bytes] = '\0';
+		if (line[0] == '#')
+			continue;
 		token = strtok(line, " \n\t\r");
 		if (token == NULL)
 			continue;
