@@ -2,7 +2,7 @@ pall
 push 4
 push 10
 push 5
-push 10
+push -2147483647
 push 6
 pall
 
