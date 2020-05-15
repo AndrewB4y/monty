@@ -70,7 +70,7 @@ int proc_lines(stack_t **stck, char (*b)[1024], ssize_t bsize, int *i, int *md)
 
 	while (1)
 	{
-		if (end + 1 < bsize && end != 0)
+		if (end + 1 < bsize && count != 0)
 		{
 			start = end + 1;
 			end = start;
