@@ -27,6 +27,7 @@ void _push(stack_t **stack, unsigned int line_number)
 	if (token == NULL || _isnumber(token) == 0)
 	{
 		fprintf(stderr, "L<%u>: usage: push integer\n", line_number);
+		free(new);
 		free_stack(*stack);
 		exit(EXIT_FAILURE);
 	}
@@ -71,6 +72,7 @@ void _q_push(stack_t **queue, unsigned int line_number)
 	if (token == NULL || _isnumber(token) == 0)
 	{
 		fprintf(stderr, "L<%u>: usage: push integer\n", line_number);
+		free(new);
 		free_stack(*queue);
 		exit(EXIT_FAILURE);
 	}
