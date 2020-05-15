@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	}
 	if (access(argv[1], F_OK | R_OK) != 0)
 	{
-		fprintf(stderr, "Can't open file %s\n", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	read_monty(argv[1]);
