@@ -21,6 +21,7 @@ void _push(stack_t **stack, unsigned int line_number)
 	{
 		free_stack(*stack);
 		fprintf(stderr, "Error: malloc failed\n");
+		close(fd);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(NULL, " \n\t\r");
@@ -67,6 +68,7 @@ void _q_push(stack_t **queue, unsigned int line_number)
 	{
 		free_stack(*queue);
 		fprintf(stderr, "Error: malloc failed\n");
+		close(fd);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(NULL, " \n\t\r");
